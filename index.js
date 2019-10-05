@@ -5,15 +5,18 @@ const express = require('express')
 const app = express()
 
 const dbConfigs = require('./knexfile.js')
-const db = require('knex')(dbConfigs.development)
+const db = require('knex')(dbConfigs.development) // this is the database connection and you only need one per application!
 
 const port = 3000
 
 // -----------------------------------------------------------------------------
-// Express.js Endpoints
+// Mustache templates
 
 const homepageTemplate = fs.readFileSync('./templates/homepage.mustache', 'utf8')
-const cohortTemplate = fs.readFileSync('./templates/cohorts.mustache', 'utf8')
+const cohortTemplate = fs.readFileSync('./templates/new-cohort.mustache', 'utf8')
+const allCohortsTemplate = fs.readFileSync('./templates/all-cohorts.mustache', 'utf8')
+// -----------------------------------------------------------------------------
+// Express.js Endpoints
 
 app.use(express.urlencoded())
 
@@ -34,6 +37,13 @@ app.get('/students/:id', function (req, res) {
     .catch(function (err) {
       console.log(err)
       res.status(500).send('There is no student with the id')
+    })
+})
+
+app.get('/cohorts', function (req, res) {
+  getAllCohorts()
+    .then(function (allCohorts) {
+      res.send(mustache.render(allCohortsTemplate, {allCohortsListHTML: renderAllCohorts(allCohorts)}))
     })
 })
 

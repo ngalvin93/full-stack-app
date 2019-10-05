@@ -24,3 +24,9 @@ node index.js
 ## License
 
 [ISC License](LICENSE.md)
+
+- make a new template for the Cohorts page
+- add a new route for Students /students/65 should render student with id = 65
+- add a migration + seed for Assignments, link assignments to Students with a SQL JOIN (hard mode) (edited) 
+- add new route + page for student assignments (hard mode)
+- add startDate and endDate input elements for creating a cohort (hint: check out <input type="date">)
