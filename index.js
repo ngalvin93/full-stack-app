@@ -103,13 +103,13 @@ const getAllCohortsQuery = `
 
 function getSingleStudent (id) {
   return db.raw('SELECT * FROM Students WHERE id = ?', [id])
-  // .then(function (results) {
-  //   if (results.length !== 1) {
-  //     throw null
-  //   } else {
-  //     return results[0]
-  //   }
-  // })
+  .then(function (results) {
+    if (results.length === 0) {
+      throw null
+    } else {
+      return results[0]
+    }
+  })
 }
 
 function getAllCohorts () {
