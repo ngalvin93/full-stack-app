@@ -33,7 +33,7 @@ app.get('/students/:id', function (req, res) {
     })
     .catch(function (err) {
       console.log(err)
-      res.status(500).send('Something is wrong!!')
+      res.status(500).send('There is no student with the id')
     })
 })
 

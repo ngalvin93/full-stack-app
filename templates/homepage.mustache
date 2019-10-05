@@ -5,14 +5,13 @@
   <title>Headmaster2</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <link rel="stylesheet" href="css/main.css">
 </head>
 
 <body>
   <h1>Headmaster Homepage!</h1>
   <main>{{{cohortsListHTML}}}</main>
 
+{{! Create New Cohort Form }}
   <form action="/cohorts" method="post">
     <label>Cohort title:</label>
     <input type="text" name="title" />
@@ -22,6 +21,22 @@
 
     <button type="submit">Add Cohort</button>
   </form>
+
+{{! Find Student by id Form }}
+  <form id="student-id-form" action="" method="GET" onSubmit="return searchById()">
+    <label>Student id:</label>
+    <input type="text" name="student-id" id="id-value"/>
+    <button type="submit">Search</button>
+  </form>
+
+  <script>
+    function searchById () {
+      let id = document.getElementById('id-value').value;
+      location.href = '/students/' + id;
+      return false;
+    }
+  </script>
+
 </body>
 
 </html>
