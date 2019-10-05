@@ -24,6 +24,19 @@ app.get('/', function (req, res) {
     })
 })
 
+app.get('/students/:id', function (req, res) {
+  console.log('Request param: ',req.params.id)
+  getSingleStudent(req.params.id)
+    .then(function (student) {
+      console.log('This is the student response: ',student)
+      res.send('<pre>' + prettyPrintJSON(student) + '</pre>')
+    })
+    .catch(function (err) {
+      console.log(err)
+      res.status(500).send('Something is wrong!!')
+    })
+})
+
 app.post('/cohorts', function (req, res) {
   console.log('This is the request body: ',req.body)
   console.log('This is the title: ',req.body.title)
@@ -78,12 +91,27 @@ const getAllCohortsQuery = `
   FROM Cohorts
 `
 
+function getSingleStudent (id) {
+  return db.raw('SELECT * FROM Students WHERE id = ?', [id])
+  // .then(function (results) {
+  //   if (results.length !== 1) {
+  //     throw null
+  //   } else {
+  //     return results[0]
+  //   }
+  // })
+}
+
 function getAllCohorts () {
   return db.raw(getAllCohortsQuery)
 }
 
 function getOneCohort (slug) {
   return db.raw('SELECT * FROM Cohorts WHERE slug = ?', [slug])
+    .then(function (results) {
+      console.log(results)
+      return results
+    })
     .then(function (results) {
       if (results.length !== 1) {
         throw null
