@@ -15,6 +15,7 @@ const port = 3000
 const homepageTemplate = fs.readFileSync('./templates/homepage.mustache', 'utf8')
 const cohortTemplate = fs.readFileSync('./templates/new-cohort.mustache', 'utf8')
 const allCohortsTemplate = fs.readFileSync('./templates/all-cohorts.mustache', 'utf8')
+const findStudentTemplate = fs.readFileSync('./templates/find-student.mustache', 'utf8')
 // -----------------------------------------------------------------------------
 // Express.js Endpoints
 
@@ -31,12 +32,13 @@ app.get('/students/:id', function (req, res) {
   console.log('Request param: ',req.params.id)
   getSingleStudent(req.params.id)
     .then(function (student) {
-      console.log('This is the student response: ',student)
-      res.send('<pre>' + prettyPrintJSON(student) + '</pre>')
+      // console.log('This is the student response: ',student)
+      // res.send('<pre>' + prettyPrintJSON(student) + '</pre>')
+      res.send(mustache.render(findStudentTemplate, { findStudentHTML: renderSingleStudent(student) }))
     })
     .catch(function (err) {
       console.log(err)
-      res.status(500).send('There is no student with the id')
+      res.status(500).send(`There is no student with the id ${req.params.id}`)
     })
 })
 
@@ -91,6 +93,16 @@ function renderAllCohorts (allCohorts) {
 function renderNewCohort (cohort) {
   console.log(cohort)
   return `<h1>${cohort.title}</h1><h1>${cohort.slug}</h1>`
+}
+
+function renderSingleStudent (student) {
+  let activeStatus = []
+  if (student.isActive === 1) {
+    activeStatus.push('Current Student')
+  } else {
+    activeStatus.push('Not a Current Student')
+  }
+  return `<p>${student.name}</p><p>${activeStatus[0]}</p>`
 }
 
 // -----------------------------------------------------------------------------
