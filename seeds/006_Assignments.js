@@ -32,11 +32,3 @@ exports.seed = function(knex) {
       ]);
     });
 };
-
-table.increments('id')
-table.string('assignment')
-table.boolean('isComplete')
-table.datetime('startDate')
-table.datetime('endDate')
-table.integer('studentId')
-table.foreign('studentId'),references(Students.id)
