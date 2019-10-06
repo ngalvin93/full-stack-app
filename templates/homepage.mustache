@@ -9,12 +9,13 @@
 
 <body>
   <h1>Headmaster Homepage!</h1>
-  <a href="localhost:3000/cohorts">All Cohorts</a>
+  <a href="/cohorts">View all Cohorts</a>
   <main>{{{cohortsListHTML}}}</main>
 
 {{! Create New Cohort Form }}
+<h3>Create new cohort</h3>
   <form action="/cohorts" method="post">
-    <label>Cohort title:</label>
+    <label>Cohort Name:</label>
     <input type="text" name="title" />
 
     <label>Slug:</label>
@@ -24,6 +25,7 @@
   </form>
 
 {{! Find Student by id Form }}
+<h3>Find student by id</h3>
   <form id="student-id-form" action="" method="GET" onSubmit="return searchById()">
     <label>Student id:</label>
     <input type="text" name="student-id" id="id-value"/>
