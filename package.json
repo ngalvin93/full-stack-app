@@ -1,7 +1,7 @@
 {
   "name": "basic-express-with-knex",
   "version": "1.0.0",
-  "author": "Chris Oakman <chris@oakmac.com> (https://chrisoakman.com/)",
+  "author": "Alvin Ng",
   "description": "Basic express.js app using Knex",
   "license": "ISC",
   "main": "index.js",
@@ -10,7 +10,7 @@
     "knex": "0.19.4",
     "mustache": "3.1.0",
     "nodemon": "1.19.3",
-    "pg": "^7.12.1",
+    "pg": "7.12.1",
     "sqlite3": "4.1.0"
   }
 }
