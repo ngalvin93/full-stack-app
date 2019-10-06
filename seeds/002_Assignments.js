@@ -7,15 +7,15 @@ exports.seed = function(knex) {
       return knex('Assignments').insert([
         {
           id: 1,
-          assignment: 'Complete full-stack app',
+          assignments: 'Complete full-stack app',
           isComplete: false,
           startDate: '2019-10-05',
-          endDate: null,
+          endDate: '2019-10-05',
           studentId: 2
         },
         {
           id: 2,
-          assignment: 'Research how to make a join',
+          assignments: 'Research how to make a join',
           isComplete: true,
           startDate: '2019-10-03',
           endDate: '2019-10-04',
@@ -23,10 +23,10 @@ exports.seed = function(knex) {
         },
         {
           id: 3,
-          assignment: 'Start on phase 2 project',
+          assignments: 'Start on phase 2 project',
           isComplete: false,
           startDate: '2019-10-12',
-          endDate: null,
+          endDate: '2019-10-12',
           studentId: 3
         }
       ]);

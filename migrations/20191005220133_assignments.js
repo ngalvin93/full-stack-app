@@ -1,6 +1,6 @@
 
 exports.up = function(knex) {
-    return knex.schema.createTable('Assignments', function (table) {
+    return knex.schema.createTable('Assignments', (table) => {
         table.increments('id')
         table.string('assignments')
         table.boolean('isComplete')
