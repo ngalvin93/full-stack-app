@@ -4,12 +4,14 @@ const mustache = require('mustache')
 const express = require('express')
 const app = express()
 
-const pg = require('pg')
-
 const dbConfigs = require('./knexfile.js')
 const db = require('knex')(dbConfigs.development) // this is the database connection and you only need one per application!
 
-const port = 3000
+// const environment = 'development';
+// const dbConfigs = require('./knexfile.js')[environment];
+// const db = require('knex')(dbConfigs);
+
+const port = 5432
 
 // -----------------------------------------------------------------------------
 // Mustache templates

@@ -12,5 +12,5 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-    return knex.schema.dropTable('Assignments')
+    return knex.schema.raw('DROP TABLE Assignments')
 };

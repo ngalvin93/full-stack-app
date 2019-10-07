@@ -50,18 +50,21 @@ module.exports = {
 
   development: {
     client: 'pg',
-    connection: 'postgres://localhost/3000',
-    // connection: {
-    //   host: 'http://localhost:3000/',
-    //   user: 'postgres',
-    //   database: 'cohorts',
-    //   charset: 'utf8'
-    // },
+    connection: {
+      host: 'localhost',
+      user: 'postgres',
+      database: 'cohorts',
+      charset: 'utf8'
+    },
+    pool: {
+      min: 2,
+      max: 10
+    },
     migrations: {
-      directory: __dirname + '/migrations',
+      directory: './migrations',
     },
     seeds: {
-      directory: __dirname + '/seeds',
+      directory: './seeds',
     },
     useNullAsDefault: true
   },
