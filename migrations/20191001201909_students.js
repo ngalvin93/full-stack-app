@@ -4,7 +4,7 @@ exports.up = function(knex) {
     table.string('name')
     table.boolean('isActive')
     table.integer('cohortId')
-    table.foreign('cohortId').references('Cohorts.id')
+    table.foreign('cohortId').references('id').inTable('Cohorts')
   })
 };
 
