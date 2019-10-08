@@ -1,10 +1,11 @@
 exports.up = function(knex) {
   return knex.schema.createTable('Student', (table) => {
-    table.increments('id')
+    table.increments()
     table.string('name')
     table.boolean('isActive')
     table.integer('cohortId')
     // table.foreign('cohortId')
+      .notNullable()
       .references('id')
       .inTable('Cohort')
       .onDelete('CASCADE')
@@ -13,5 +14,5 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-  return knex.schema.raw('DROP TABLE Student')
+  return knex.schema.dropTable('Student')
 };

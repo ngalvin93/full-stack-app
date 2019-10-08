@@ -24,7 +24,7 @@ exports.seed = function(knex) {
           isComplete: false,
           startDate: '2019-10-12',
           endDate: '2019-10-12',
-          studentId: 3
+          studentId: 2
         }
       ]);
     });
