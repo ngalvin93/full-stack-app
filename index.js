@@ -11,7 +11,7 @@ const db = require('knex')(dbConfigs.development) // this is the database connec
 // const dbConfigs = require('./knexfile.js')[environment];
 // const db = require('knex')(dbConfigs);
 
-const port = 5432
+const port = 3000
 
 // -----------------------------------------------------------------------------
 // Mustache templates

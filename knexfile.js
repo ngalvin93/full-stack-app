@@ -52,6 +52,7 @@ module.exports = {
     client: 'pg',
     connection: {
       host: 'localhost',
+      user: 'postgres',
       database: 'cohort_1'
     },
     migrations: {
