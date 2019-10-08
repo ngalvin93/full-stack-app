@@ -4,7 +4,11 @@ exports.up = function(knex) {
     table.string('name')
     table.boolean('isActive')
     table.integer('cohortId')
-    table.foreign('cohortId').references('id').inTable('Cohort')
+    // table.foreign('cohortId')
+      .references('id')
+      .inTable('Cohort')
+      .onDelete('CASCADE')
+      .index()
   })
 };
 

@@ -52,7 +52,7 @@ module.exports = {
     client: 'pg',
     connection: {
       host: 'localhost',
-      database: 'cohort_app'
+      database: 'cohort_1'
     },
     migrations: {
       directory: './migrations',

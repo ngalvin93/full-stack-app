@@ -6,7 +6,6 @@ exports.seed = function(knex) {
       // Inserts seed entries
       return knex('Cohort').insert([
         {
-          id: 1,
           title: '2019 June Houston Flex',
           slug: '2019-06-houston-flex',
           isActive: true,
@@ -14,7 +13,6 @@ exports.seed = function(knex) {
           endDate: '2020-01-07'
         },
         {
-          id: 2,
           title: '2018 September Houston Flex',
           slug: '2018-09-houston-flex',
           isActive: false,
