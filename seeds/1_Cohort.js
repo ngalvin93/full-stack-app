@@ -1,10 +1,10 @@
 
 exports.seed = function(knex) {
   // Deletes ALL existing entries
-  return knex('Cohorts').del()
+  return knex('Cohort').del()
     .then(function () {
       // Inserts seed entries
-      return knex('Cohorts').insert([
+      return knex('Cohort').insert([
         {
           id: 1,
           title: '2019 June Houston Flex',

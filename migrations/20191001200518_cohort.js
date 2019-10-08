@@ -1,6 +1,6 @@
 
 exports.up = function(knex) {
-  return knex.schema.createTable('Cohorts', (table) => {
+  return knex.schema.createTable('Cohort', (table) => {
     table.increments('id')
     table.string('title')
     table.string('slug')
@@ -11,5 +11,5 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-  return knex.schema.raw('DROP TABLE Cohorts')
+  return knex.schema.raw('DROP TABLE Cohort')
 };

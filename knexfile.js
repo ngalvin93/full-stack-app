@@ -52,7 +52,7 @@ module.exports = {
     client: 'pg',
     connection: {
       host: 'localhost',
-      database: 'knex_app'
+      database: 'cohort_app'
     },
     migrations: {
       directory: './migrations',
