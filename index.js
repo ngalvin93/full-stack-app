@@ -58,14 +58,15 @@ app.get('/cohorts', function (req, res) {
 })
 
 app.post('/cohorts', function (req, res) {
-  console.log('This is the request body: ',req.body)
-  console.log('This is the title: ',req.body.title)
-  console.log('This is the slug: ',req.body.slug)
+  // console.log('This is the request body: ',req.body)
+  // console.log('This is the title: ',req.body.title)
+  // console.log('This is the slug: ',req.body.slug)
   createCohort(req.body)
     .then(function (response) {
-      //console.log(req.body)
-      console.log(response)
-      res.send(mustache.render(cohortTemplate, { newCohortHTML: renderNewCohort(response) }))
+      // console.log(req.body)
+      // console.log('This is the promise response from the cohort post: ', response)
+      // res.send(mustache.render(cohortTemplate, { newCohortHTML: renderNewCohort(response) }))
+      res.send(response)
     })
     .catch(function (err) {
       console.log(err)
@@ -157,7 +158,9 @@ function getOneCohort (slug) {
 
 function createCohort (cohort) {
   // return db.raw('INSERT INTO Cohort (title, slug, isActive) VALUES (?, ?, true); SELECT last_insert_rowid();', [cohort.title, cohort.slug])
-  return db.insert([{
+  return db
+  .returning(['title','slug'])
+  .insert([{
     title: cohort.title,
     slug: cohort.slug,
     isActive: true

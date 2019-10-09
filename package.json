@@ -4,6 +4,9 @@
   "author": "Alvin Ng",
   "description": "Basic express.js app using Knex",
   "license": "ISC",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
   "main": "index.js",
   "dependencies": {
     "express": "4.17.1",
