@@ -156,7 +156,13 @@ function getOneCohort (slug) {
 }
 
 function createCohort (cohort) {
-  return db.raw('INSERT INTO Cohort (title, slug, isActive) VALUES (?, ?, true); SELECT last_insert_rowid();', [cohort.title, cohort.slug])
+  // return db.raw('INSERT INTO Cohort (title, slug, isActive) VALUES (?, ?, true); SELECT last_insert_rowid();', [cohort.title, cohort.slug])
+  return db.insert([{
+    title: cohort.title,
+    slug: cohort.slug,
+    isActive: true
+  }])
+    .into('Cohort')
 }
 
 // -----------------------------------------------------------------------------
