@@ -32,6 +32,7 @@ app.get('/', function (req, res) {
     })
     .catch(function (err) {
       console.log(err)
+      res.status(500).send('There was an error connecting...')
     })
 })
 
@@ -137,7 +138,10 @@ function getAllCohorts () {
 }
 
 function getOneCohort (slug) {
-  return db.raw('SELECT * FROM Cohort WHERE slug = ?', [slug])
+  // return db.raw('SELECT * FROM Cohort WHERE slug = ?', [slug])
+  return db.select().from('Cohort').where({
+    slug: slug
+  })
     .then(function (results) {
       console.log(results)
       return results
