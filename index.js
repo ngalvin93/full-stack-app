@@ -30,6 +30,9 @@ app.get('/', function (req, res) {
     .then(function (allCohorts) {
       res.send(mustache.render(homepageTemplate, { cohortsListHTML: renderAllCohorts(allCohorts) }))
     })
+    .catch(function (err) {
+      console.log(err)
+    })
 })
 
 app.get('/students/:id', function (req, res) {
@@ -112,13 +115,10 @@ function renderSingleStudent (student) {
 // -----------------------------------------------------------------------------
 // Database Queries
 
-const getAllCohortsQuery = `
-  SELECT *
-  FROM Cohorts
-`
+// const getAllCohortsQuery = 'SELECT * FROM Cohort;'
 
 function getSingleStudent (id) {
-  return db.raw('SELECT * FROM Students WHERE id = ?', [id])
+  return db.raw('SELECT * FROM Student WHERE id = ?', [id])
   .then(function (results) {
     if (results.length === 0) {
       throw null
@@ -129,11 +129,12 @@ function getSingleStudent (id) {
 }
 
 function getAllCohorts () {
-  return db.raw(getAllCohortsQuery)
+  return db.select().from('Cohort')
+  // return db.raw(getAllCohortsQuery)
 }
 
 function getOneCohort (slug) {
-  return db.raw('SELECT * FROM Cohorts WHERE slug = ?', [slug])
+  return db.raw('SELECT * FROM Cohort WHERE slug = ?', [slug])
     .then(function (results) {
       console.log(results)
       return results
@@ -148,7 +149,7 @@ function getOneCohort (slug) {
 }
 
 function createCohort (cohort) {
-  return db.raw('INSERT INTO Cohorts (title, slug, isActive) VALUES (?, ?, true); SELECT last_insert_rowid();', [cohort.title, cohort.slug])
+  return db.raw('INSERT INTO Cohort (title, slug, isActive) VALUES (?, ?, true); SELECT last_insert_rowid();', [cohort.title, cohort.slug])
 }
 
 // -----------------------------------------------------------------------------
