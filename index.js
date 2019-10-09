@@ -118,7 +118,10 @@ function renderSingleStudent (student) {
 // const getAllCohortsQuery = 'SELECT * FROM Cohort;'
 
 function getSingleStudent (id) {
-  return db.raw('SELECT * FROM Student WHERE id = ?', [id])
+  // return db.raw('SELECT * FROM Student WHERE id = ?', [id])
+  return db.select().from('Student').where({
+    id: id
+  })
   .then(function (results) {
     if (results.length === 0) {
       throw null
