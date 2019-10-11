@@ -3,6 +3,8 @@
 // How to handle promise responses to access values?
 // Should we html template every page?
 // Where does app.static come into play?
+// What does cors module do?
+// What does body parser do?
 
 
 const fs = require('fs')
@@ -18,12 +20,11 @@ const db = require('knex')(dbConfigs.development) // this is the database connec
 // const dbConfigs = require('./knexfile.js')[environment];
 // const db = require('knex')(dbConfigs);
 
-// const cors = require('cors')
-// const session = require('express-session')
+const cors = require('cors')
+const session = require('express-session')
 const passport = require('passport')
 
-// const bodyParser = require('body-parser')
-// app.use(bodyParser.urlencoded({ extended: true }))
+const bodyParser = require('body-parser')
 
 const FacebookStrategy = require('passport-facebook').Strategy;
 const FACEBOOK_APP_ID = '2391198310978732';
@@ -51,7 +52,8 @@ app.use(express.urlencoded())
 // app.use(session());
 app.use(passport.initialize());
 app.use(passport.session());
-// app.use(cors())
+app.use(cors())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 app.get('/', function (req, res) {
   getAllCohorts()
@@ -94,7 +96,7 @@ app.post('/cohorts', function (req, res) {
       // console.log(req.body)
       // console.log('This is the promise response from the cohort post: ', response)
       // res.send(mustache.render(cohortTemplate, { newCohortHTML: renderNewCohort(response) }))
-      res.send(response)
+      res.send(response[0])
     })
     .catch(function (err) {
       console.log(err)
@@ -120,21 +122,31 @@ app.get('/cohorts/:slug', function (req, res) {
 //   successReturnToOrRedirect: '/'
 // }))
 
-app.get('/success', function (req, res) {
-  res.send('Welcome!')
-})
+// app.get('/success', function (req, res) {
+//   res.send('Welcome!')
+// })
 
-app.get('/error', function (req, res) {
-  res.send('There was an error logging in...')
-})
+// app.get('/error', function (req, res) {
+//   res.send('There was an error logging in...')
+// })
 
-passport.serializeUser(function (user, cb) {
-  cb(null, user)
-})
+// passport.serializeUser(function (user, cb) {
+//   cb(null, user)
+// })
 
-passport.serializeUser(function (obj, cb) {
-  cb(null, obj)
-})
+// // passport.serializeUser(function (obj, cb) {
+// //   cb(null, obj)
+// // })
+
+// passport.deserializeUser(function(id, cb) {
+//   getStudent.then(function(result) {
+//     if (results.length === 0) {
+//       cb(err, null);
+//     } else {
+//       cb(err, results[0]);
+//     }
+//   })
+// });
 
 // -----------------------------------------------------------------------------
 // FACEBOOK
@@ -217,6 +229,14 @@ function renderSingleStudent (student) {
 // Database Queries
 
 // const getAllCohortsQuery = 'SELECT * FROM Cohort;'
+
+
+function getStudent (id) {
+  // return db.raw('SELECT * FROM Student WHERE id = ?', [id])
+  return db.select().from('Student').where({
+    id: id
+  })
+}
 
 function getSingleStudent (id) {
   // return db.raw('SELECT * FROM Student WHERE id = ?', [id])
