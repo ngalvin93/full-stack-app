@@ -1,3 +1,10 @@
+// Where does the app id and secret live?
+// What is the data type that the sql queries return?
+// How to handle promise responses to access values?
+// Should we html template every page?
+// Where does app.static come into play?
+
+
 const fs = require('fs')
 const mustache = require('mustache')
 
@@ -11,7 +18,23 @@ const db = require('knex')(dbConfigs.development) // this is the database connec
 // const dbConfigs = require('./knexfile.js')[environment];
 // const db = require('knex')(dbConfigs);
 
-const port = 3000
+// const cors = require('cors')
+// const session = require('express-session')
+const passport = require('passport')
+
+// const bodyParser = require('body-parser')
+// app.use(bodyParser.urlencoded({ extended: true }))
+
+const FacebookStrategy = require('passport-facebook').Strategy;
+const FACEBOOK_APP_ID = '2391198310978732';
+const FACEBOOK_APP_SECRET = 'ba92420b7339af1168fac130c3526df8';
+
+const GitHubStrategy = require('passport-github').Strategy;
+const GITHUB_CLIENT_ID = "Iv1.ccbbd3cd062d00a6"
+const GITHUB_CLIENT_SECRET = "25801f0081c4629b5649d0cebb01c7ff3ecdb2d8";
+
+
+const port = process.env.PORT || 3000
 
 // -----------------------------------------------------------------------------
 // Mustache templates
@@ -20,10 +43,15 @@ const homepageTemplate = fs.readFileSync('./templates/homepage.mustache', 'utf8'
 const cohortTemplate = fs.readFileSync('./templates/new-cohort.mustache', 'utf8')
 const allCohortsTemplate = fs.readFileSync('./templates/all-cohorts.mustache', 'utf8')
 const findStudentTemplate = fs.readFileSync('./templates/find-student.mustache', 'utf8')
+const loginTemplate = fs.readFileSync('./templates/login.mustache', 'utf8')
 // -----------------------------------------------------------------------------
 // Express.js Endpoints
 
 app.use(express.urlencoded())
+// app.use(session());
+app.use(passport.initialize());
+app.use(passport.session());
+// app.use(cors())
 
 app.get('/', function (req, res) {
   getAllCohorts()
@@ -83,6 +111,77 @@ app.get('/cohorts/:slug', function (req, res) {
       res.status(404).send('cohort not found :(')
     })
 })
+
+// -----------------------------------------------------------------------------
+// Login
+
+// app.get('/login', passport.authenticate('oauth2',{
+//   session: true,
+//   successReturnToOrRedirect: '/'
+// }))
+
+app.get('/success', function (req, res) {
+  res.send('Welcome!')
+})
+
+app.get('/error', function (req, res) {
+  res.send('There was an error logging in...')
+})
+
+passport.serializeUser(function (user, cb) {
+  cb(null, user)
+})
+
+passport.serializeUser(function (obj, cb) {
+  cb(null, obj)
+})
+
+// -----------------------------------------------------------------------------
+// FACEBOOK
+
+passport.use(new FacebookStrategy({
+  clientID: FACEBOOK_APP_ID,
+  clientSecret: FACEBOOK_APP_SECRET,
+  callbackURL: "/auth/facebook/callback"
+},
+function(accessToken, refreshToken, profile, cb) {
+    return cb(null, profile);
+}
+));
+
+app.get('/auth/facebook',
+  passport.authenticate('facebook'));
+
+app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/error' }),
+  function(req, res) {
+    res.redirect('/success');
+  });
+
+// -----------------------------------------------------------------------------
+// GITHUB
+
+passport.use(new GitHubStrategy({
+  clientID: GITHUB_CLIENT_ID,
+  clientSecret: GITHUB_CLIENT_SECRET,
+  callbackURL: "/auth/github/callback"
+},
+function(accessToken, refreshToken, profile, cb) {
+    return cb(null, profile);
+}
+));
+
+app.get('/auth/github',
+passport.authenticate('github'));
+
+app.get('/auth/github/callback',
+passport.authenticate('github', { failureRedirect: '/error' }),
+function(req, res) {
+  res.redirect('/success');
+});
+
+// -----------------------------------------------------------------------------
+// PORT
 
 app.listen(port, function () {
   console.log('Listening on port ' + port + ' 👍')
