@@ -49,8 +49,8 @@ const loginTemplate = fs.readFileSync('./templates/login.mustache', 'utf8')
 // Express.js Endpoints
 
 app.use(express.urlencoded())
-// app.use(session());
-app.use(passport.initialize());
+app.use(session({secret: 'abcdefg'})); // provide any secret string
+app.use(passport.initialize()); // connects passport to express
 app.use(passport.session());
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -131,11 +131,13 @@ app.get('/error', function (req, res) {
 })
 
 passport.serializeUser(function (user, cb) {
+  // placeholder for custom user serialization
+  //null is for errors
   cb(null, user)
 })
 
 passport.deserializeUser(function(id, cb) {
-  getStudent.then(function(result) {
+  getStudent.then(function(results) {
     if (results.length === 0) {
       cb(err, null);
     } else {
