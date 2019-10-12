@@ -96,7 +96,7 @@ app.post('/cohorts', function (req, res) {
       // console.log(req.body)
       // console.log('This is the promise response from the cohort post: ', response)
       // res.send(mustache.render(cohortTemplate, { newCohortHTML: renderNewCohort(response) }))
-      res.send(response[0])
+      res.send(mustache.render(cohortTemplate, { newCohortHTML: renderNewCohort(response)}))
     })
     .catch(function (err) {
       console.log(err)
@@ -117,36 +117,32 @@ app.get('/cohorts/:slug', function (req, res) {
 // -----------------------------------------------------------------------------
 // Login
 
-// app.get('/login', passport.authenticate('oauth2',{
-//   session: true,
-//   successReturnToOrRedirect: '/'
-// }))
+app.get('/login', passport.authenticate('oauth2',{
+  session: true,
+  successReturnToOrRedirect: '/'
+}))
 
-// app.get('/success', function (req, res) {
-//   res.send('Welcome!')
-// })
+app.get('/success', function (req, res) {
+  res.send('Welcome!')
+})
 
-// app.get('/error', function (req, res) {
-//   res.send('There was an error logging in...')
-// })
+app.get('/error', function (req, res) {
+  res.send('There was an error logging in...')
+})
 
-// passport.serializeUser(function (user, cb) {
-//   cb(null, user)
-// })
+passport.serializeUser(function (user, cb) {
+  cb(null, user)
+})
 
-// // passport.serializeUser(function (obj, cb) {
-// //   cb(null, obj)
-// // })
-
-// passport.deserializeUser(function(id, cb) {
-//   getStudent.then(function(result) {
-//     if (results.length === 0) {
-//       cb(err, null);
-//     } else {
-//       cb(err, results[0]);
-//     }
-//   })
-// });
+passport.deserializeUser(function(id, cb) {
+  getStudent.then(function(result) {
+    if (results.length === 0) {
+      cb(err, null);
+    } else {
+      cb(err, results[0]);
+    }
+  })
+});
 
 // -----------------------------------------------------------------------------
 // FACEBOOK
@@ -211,8 +207,7 @@ function renderAllCohorts (allCohorts) {
 }
 
 function renderNewCohort (cohort) {
-  console.log(cohort)
-  return `<h1>${cohort.title}</h1><h1>${cohort.slug}</h1>`
+  return `<h1>${cohort[0].title}</h1><p>localhost:3000/cohorts/${cohort[0].slug}</p>`
 }
 
 function renderSingleStudent (student) {
